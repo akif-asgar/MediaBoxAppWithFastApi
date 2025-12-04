@@ -1,0 +1,21 @@
+[dependency-groups]
+dev = [
+    "aiosqlite>=0.21.0",
+    "databases>=0.9.0",
+    "fastapi>=0.123.0",
+    "fastapi-users>=15.0.1",
+    "fastapi-users-db-sqlalchemy>=7.0.0",
+    "passlib[bcrypt]>=1.7.4",
+    "pydantic>=2.12.5",
+    "sqlalchemy>=2.0.44",
+    "uvicorn[standard]>=0.38.0",
+]
+
+[project]
+name = "mediabox"
+version = "0.1.0"
+requires-python = ">=3.10"
+dependencies = [
+    "jwt>=1.4.0",
+    "python-jose[cryptography]>=3.5.0",
+]

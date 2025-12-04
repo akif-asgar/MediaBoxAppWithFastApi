@@ -1,0 +1,43 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environment
+.venv/
+venv/
+ENV/
+
+# Uv / uv.lock
+uv.lock
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Pytest / Coverage
+.coverage
+htmlcov/
+.cache/
+.pytest_cache/
+
+# IDE
+.vscode/
+.idea/
+
+# Byte-compiled / cache
+*.egg-info/
+*.egg/
+.eggs/
+
+# Logs
+*.log
+
+# SQLite database files
+*.db
+*.sqlite3
+
+# Environment variables
+.env
+.env.*
