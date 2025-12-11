@@ -4,6 +4,7 @@ from sqlalchemy.sql import func
 from uuid import uuid4
 from sqlalchemy.dialects.postgresql import UUID
 from app.db import Base
+from sqlalchemy.orm import relationship
 
 class User(Base):
     __tablename__ = "users"
@@ -26,3 +27,8 @@ class User(Base):
     updated_at: Mapped[DateTime] = mapped_column(
         DateTime(timezone=True), server_default=func.now(), onupdate=func.now()
     )
+
+    # relationship to Post model
+    
+    posts = relationship("Post", back_populates="author", cascade="all, delete-orphan")
+    media_files = relationship("Media", back_populates="owner", cascade="all, delete-orphan")

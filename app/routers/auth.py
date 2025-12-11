@@ -27,7 +27,7 @@ def verify_password(password: str, hashed: str):
 @router.post("/register", response_model=UserOut)
 async def register_user(data: UserCreate, session: AsyncSession = Depends(get_async_session)):
 
-    # email və username yoxlaması
+    # to check if user with same email or username exists
     query = select(User).where(
         (User.email == data.email) | (User.username == data.username)
     )
