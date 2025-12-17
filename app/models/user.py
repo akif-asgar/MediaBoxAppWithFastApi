@@ -28,7 +28,8 @@ class User(Base):
         DateTime(timezone=True), server_default=func.now(), onupdate=func.now()
     )
 
-    # relationship to Post model
+    # relationship to Post,Comment and media model
     
     posts = relationship("Post", back_populates="author", cascade="all, delete-orphan")
     media_files = relationship("Media", back_populates="owner", cascade="all, delete-orphan")
+    comments = relationship("Comment", back_populates="user", cascade="all, delete-orphan")

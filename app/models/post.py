@@ -17,9 +17,12 @@ class Post(Base):
     created_at = Column(DateTime, default=datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
     
-    # connection to Media model
+    # connection to Media model and Comment model
     media_files = relationship(
         "Media", 
         back_populates="post", 
         cascade="all, delete-orphan"
     )
+    comments = relationship("Comment", back_populates="post", cascade="all, delete-orphan")  
+
+    
