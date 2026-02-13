@@ -1,6 +1,6 @@
+from jose import jwt  # <- burada python-jose istifadə olunur
 from passlib.context import CryptContext
 from datetime import datetime, timedelta
-import jwt
 from typing import Dict
 import secrets
 
@@ -27,13 +27,11 @@ def create_access_token(data: Dict, expires_delta: int = ACCESS_TOKEN_EXPIRE_MIN
     return token
 
 def get_current_user(token: str):
-    
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         user_id: str = payload.get("user_id")
         if user_id is None:
             raise ValueError("Invalid token")
         return user_id
-    
-    except jwt.PyJWTError:
+    except jwt.JWTError:
         raise ValueError("Invalid token")
