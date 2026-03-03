@@ -16,7 +16,7 @@ class Post(Base):
     
     created_at = Column(DateTime, default=datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
-    
+    image = Column(String, nullable=True)
     # connection to Media model and Comment model
     media_files = relationship(
         "Media", 
