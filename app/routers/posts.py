@@ -57,6 +57,18 @@ async def get_posts(db: AsyncSession = Depends(get_async_session)):
     result = await db.execute(select(Post))
     return result.scalars().all()
 
+# ---------------- GET MY POSTS ----------------
+
+@router.get("/my-posts", response_model=List[PostResponse])
+async def get_my_posts(
+    db: AsyncSession = Depends(get_async_session),
+    current_user: User = Depends(get_current_user)
+):
+    result = await db.execute(
+        select(Post).where(Post.author_id == current_user.id)
+    )
+    posts = result.scalars().all()
+    return posts
 
 # ---------------- GET SINGLE POST ----------------
 @router.get("/{post_id}", response_model=PostResponse)

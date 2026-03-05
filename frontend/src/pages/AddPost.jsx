@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { createPost } from "../api/posts";
+import "../css/Addpost.css";
 
 const AddPost = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [image, setImage] = useState(null);
+
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -21,7 +23,7 @@ const AddPost = () => {
 
     try {
       await createPost(formData);
-      navigate("/profile"); // uğurlu olandan sonra
+      navigate("/profile");
     } catch (err) {
       console.error(err);
       alert("Post yaradılmadı");
@@ -29,20 +31,20 @@ const AddPost = () => {
   };
 
   return (
-    <div>
-      <h2>Add Post</h2>
+    <div className="addpost-container">
+      <form className="addpost-form" onSubmit={handleSubmit}>
+        <h2>Yeni Post Paylaş</h2>
 
-      <form onSubmit={handleSubmit}>
         <input
           type="text"
-          placeholder="Title"
+          placeholder="Başlıq"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           required
         />
 
         <textarea
-          placeholder="Content"
+          placeholder="Nə düşünürsən?"
           value={content}
           onChange={(e) => setContent(e.target.value)}
           required
@@ -54,7 +56,7 @@ const AddPost = () => {
           onChange={(e) => setImage(e.target.files[0])}
         />
 
-        <button type="submit">Create Post</button>
+        <button type="submit">Paylaş</button>
       </form>
     </div>
   );

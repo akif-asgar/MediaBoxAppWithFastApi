@@ -1,0 +1,47 @@
+.addpost-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 50px;
+}
+
+.addpost-form {
+  width: 400px;
+  background: white;
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.addpost-form h2 {
+  text-align: center;
+}
+
+.addpost-form input,
+.addpost-form textarea {
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+.addpost-form textarea {
+  resize: none;
+  height: 120px;
+}
+
+.addpost-form button {
+  background: #1877f2;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 15px;
+}
+
+.addpost-form button:hover {
+  background: #0f5ed7;
+}
