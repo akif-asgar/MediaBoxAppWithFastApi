@@ -18,6 +18,22 @@ class PostResponse(PostBase):
     author_id: str
     created_at: datetime
     updated_at: datetime
+    likes_count: int
+    liked: bool
 
     class Config:
         orm_mode = True
+
+class PostOut(BaseModel):
+
+    id: int
+    title: str
+    content: str
+    image: str | None
+    created_at: datetime
+
+    likes_count: int
+    liked: bool
+
+    class Config:
+        from_attributes = True

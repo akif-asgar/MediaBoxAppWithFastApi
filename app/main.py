@@ -6,6 +6,7 @@ from app.routers.auth import router as auth_router
 from app.routers.posts import router as posts_router
 from app.routers.comments import router as comments_router
 from fastapi.staticfiles import StaticFiles
+from app.routers import likes, posts
 
 app = FastAPI()
 app.mount("/uploads", StaticFiles(directory="uploads"), name="uploads")
@@ -25,6 +26,7 @@ app.add_middleware(
 app.include_router(auth_router)
 app.include_router(posts_router)
 app.include_router(comments_router)
+app.include_router(likes.router)
 
 @app.on_event("startup")
 async def startup():

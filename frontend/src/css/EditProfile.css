@@ -1,0 +1,120 @@
+.edit-container{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    margin-top:60px;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+/* FORM */
+
+.edit-form{
+    width:420px;
+    background:white;
+    padding:30px;
+    border-radius:10px;
+    box-shadow:0 4px 12px rgba(0,0,0,0.1);
+    display:flex;
+    flex-direction:column;
+    gap:16px;
+}
+
+.edit-form h2{
+    text-align:center;
+    margin-bottom:10px;
+}
+
+/* INPUTLAR */
+
+.edit-form input{
+    padding:10px;
+    border:1px solid #ccc;
+    border-radius:6px;
+    font-size:14px;
+    outline:none;
+}
+
+.edit-form input:focus{
+    border-color:#4CAF50;
+}
+
+/* FILE INPUT */
+
+.edit-form input[type="file"]{
+    border:none;
+}
+
+/* BUTTON */
+
+.edit-form button{
+    padding:11px;
+    border:none;
+    border-radius:6px;
+    background:#4CAF50;
+    color:white;
+    font-size:15px;
+    cursor:pointer;
+    transition:0.2s;
+}
+
+.edit-form button:hover{
+    background:#43a047;
+}
+
+.edit-container {
+    max-width: 500px;
+    margin: 40px auto;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.edit-form {
+    background: white;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.edit-form h2 {
+    text-align: center;
+}
+
+.edit-form input[type="text"],
+.edit-form input[type="email"],
+.edit-form input[type="password"],
+.edit-form input[type="file"] {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.password-wrapper {
+    position: relative;
+}
+
+.password-wrapper .eye-icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #555;
+}
+
+.edit-form button {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background: #4CAF50;
+    color: white;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.edit-form button:hover {
+    background: #43a047;
+}
