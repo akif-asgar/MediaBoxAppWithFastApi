@@ -1,17 +1,18 @@
+from uuid import UUID
+from typing import Optional
 from pydantic import BaseModel
 from datetime import datetime
-
 
 class CommentCreate(BaseModel):
     content: str
 
-
 class CommentOut(BaseModel):
     id: int
     content: str
-    user_id: int
+    username: str
+    user_id: UUID         
     post_id: int
     created_at: datetime
 
     class Config:
-        from_attributes = True
+        orm_mode = True

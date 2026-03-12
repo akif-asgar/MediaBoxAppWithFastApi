@@ -144,5 +144,35 @@ background:#eee;
 
 .liked-btn{
 background:#ff4d6d;
-color:white;
+color:rgb(10, 5, 5);
+}
+
+.comments-section{
+margin-top:10px;
+border-top:1px solid #ddd;
+padding-top:10px;
+}
+
+.comment{
+display:flex;
+justify-content:space-between;
+margin-bottom:5px;
+font-size:14px;
+}
+
+.add-comment{
+display:flex;
+gap:5px;
+margin-top:5px;
+}
+
+.add-comment input{
+flex:1;
+padding:5px;
+}
+
+.delete-comment{
+background:none;
+border:none;
+cursor:pointer;
 }

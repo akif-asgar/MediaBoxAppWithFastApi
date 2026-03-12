@@ -23,5 +23,5 @@ class Comment(Base):
         Integer, ForeignKey("posts.id", ondelete="CASCADE")
     )
 
-    user = relationship("User", back_populates="comments")
+    user = relationship("User", back_populates="comments",lazy="joined")
     post = relationship("Post", back_populates="comments")

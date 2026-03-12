@@ -7,67 +7,102 @@ const Profile = () => {
 
   const [user, setUser] = useState(null);
   const [posts, setPosts] = useState([]);
-  const navigate = useNavigate();
   const [likes, setLikes] = useState({});
+
+  const navigate = useNavigate();
 
   useEffect(() => {
 
-    // PROFIL MƏLUMATI
+    // LOAD USER PROFILE
     api.get("/auth/profile")
-      .then((res) => setUser(res.data))
-      .catch((err) => console.error(err));
+      .then(res => setUser(res.data))
+      .catch(err => console.error(err));
 
-    // POSTLAR + likes-in ilkin vəziyyəti
+    // LOAD USER POSTS
     api.get("/posts/my-posts")
-      .then((res) => {
+      .then(res => {
+
         setPosts(res.data);
 
+        // initialize likes state
         const initialLikes = {};
+
         res.data.forEach(post => {
           initialLikes[post.id] = {
-            likes_count: post.likes_count ?? 0,
-            liked: post.liked ?? false
+            liked: Boolean(post.liked),
+            likes_count: Number(post.likes_count ?? 0)
           };
         });
+
         setLikes(initialLikes);
 
       })
-      .catch((err) => console.error(err));
+      .catch(err => console.error(err));
 
   }, []);
 
-
   // DELETE POST
   const deletePost = async (postId) => {
+
     try {
+
       await api.delete(`/posts/${postId}`);
-      setPosts(posts.filter(post => post.id !== postId));
+
+      setPosts(posts.filter(p => p.id !== postId));
+
     } catch (err) {
+
       console.error(err);
       alert("Post silinmədi");
+
     }
   };
 
-
-  // LIKE POST (toggle)
+  // LIKE POST
   const likePost = async (postId) => {
+
+    const current = likes[postId];
+
+    const optimistic = {
+      liked: !current?.liked,
+      likes_count: (current?.likes_count ?? 0) + (!current?.liked ? 1 : -1)
+    };
+
+    setLikes(prev => ({
+      ...prev,
+      [postId]: optimistic
+    }));
+
     try {
+
       const res = await api.post(`/likes/posts/${postId}`);
 
       setLikes(prev => ({
         ...prev,
-        [postId]: res.data
+        [postId]: {
+          liked: Boolean(res.data.liked),
+          likes_count: Number(res.data.likes_count ?? 0)
+        }
       }));
+
     } catch (err) {
+
+      // rollback if error
+      setLikes(prev => ({
+        ...prev,
+        [postId]: current
+      }));
+
       console.error(err);
+
     }
   };
 
+  return (
 
-    return (
     <div className="profile-container">
 
-      {/* PROFILE INFORMATION */}
+      {/* PROFILE CARD */}
       <div className="profile-card">
 
         <h2>Profilim</h2>
@@ -75,7 +110,8 @@ const Profile = () => {
         {user && (
           <>
             <div className="profile-avatar">
-              {user?.profile_photo ? (
+
+              {user.profile_photo ? (
                 <img
                   src={`http://127.0.0.1:8000/${user.profile_photo}`}
                   alt="profile"
@@ -86,23 +122,29 @@ const Profile = () => {
                   alt="default avatar"
                 />
               )}
+
             </div>
 
             <p><strong>İstifadəçi adı:</strong> {user.username}</p>
             <p><strong>Email:</strong> {user.email}</p>
+
           </>
         )}
 
         <div className="profile-buttons">
+
           <button onClick={() => navigate("/edit-profile")}>
             Profil Redaktəsi
           </button>
+
           <button onClick={() => navigate("/add-post")}>
             ➕ Yeni Post əlavə et
           </button>
+
         </div>
 
       </div>
+
 
       {/* POSTS */}
       <div className="posts-section">
@@ -110,12 +152,15 @@ const Profile = () => {
         <h3>Mənim Postlarım</h3>
 
         {posts.length === 0 ? (
+
           <p>Hələ post əlavə etməmisiniz</p>
+
         ) : (
 
           <div className="posts-grid">
 
-            {posts.map((post) => (
+            {posts.map(post => (
+
               <div key={post.id} className="post-card">
 
                 {post.image && (
@@ -128,9 +173,9 @@ const Profile = () => {
                 <h4>{post.title}</h4>
                 <p>{post.content}</p>
 
-                {/* ACTION BUTTONS */}
                 <div className="post-actions">
 
+                  {/* LIKE BUTTON */}
                   <button
                     className={likes[post.id]?.liked ? "liked-btn" : ""}
                     onClick={() => likePost(post.id)}
@@ -138,26 +183,35 @@ const Profile = () => {
                     ❤️ {likes[post.id]?.likes_count ?? 0}
                   </button>
 
-                  <button onClick={() => navigate(`/post/${post.id}`)}>
-                    💬 Comment
+
+                  {/* COMMENTS PAGE BUTTON */}
+                  <button
+                    onClick={() => navigate(`/post/${post.id}/comments`)}
+                  >
+                    💬 {post.comments_count ?? 0} Comments
                   </button>
 
-                  {/* DELETE BUTTON */}
+
+                  {/* DELETE POST */}
                   <button
                     className="delete-btn"
-                    style={{ color: "#000" }} // qara rəng
                     onClick={() => {
+
                       if (window.confirm("Postu silmək istədiyinizə əminsiniz?")) {
+
                         deletePost(post.id);
+
                       }
+
                     }}
                   >
-                    🗑️ Delete
+                    🗑 Delete
                   </button>
 
                 </div>
 
               </div>
+
             ))}
 
           </div>
@@ -167,7 +221,9 @@ const Profile = () => {
       </div>
 
     </div>
+
   );
+
 };
 
 export default Profile;
