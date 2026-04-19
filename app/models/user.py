@@ -5,16 +5,12 @@ from uuid import uuid4
 from sqlalchemy.dialects.postgresql import UUID
 from app.db import Base
 from sqlalchemy.orm import relationship
+import uuid
 
 class User(Base):
     __tablename__ = "users"
 
-    id: Mapped[str] = mapped_column(
-        UUID(as_uuid=False),
-        primary_key=True,
-        default=lambda: str(uuid4()),
-        index=True
-    )
+    id: Mapped[str] = mapped_column(String, primary_key=True, default=lambda: str(uuid4()))
     username: Mapped[str] = mapped_column(String(50), unique=True, nullable=False)
     email: Mapped[str] = mapped_column(String(120), unique=True, nullable=False)
     password: Mapped[str] = mapped_column(String(255), nullable=False)

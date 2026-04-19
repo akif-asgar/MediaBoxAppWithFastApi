@@ -35,17 +35,31 @@ async def register_user(data: UserCreate, session: AsyncSession = Depends(get_as
     return new_user
 
 # ---------------------------- LOGIN ----------------------------
+from fastapi.security import OAuth2PasswordRequestForm
+
 @router.post("/login")
-async def login_user(data: UserLogin, session: AsyncSession = Depends(get_async_session)):
-    query = select(User).where(User.email == data.email)
+async def login_user(
+    form_data: OAuth2PasswordRequestForm = Depends(),
+    session: AsyncSession = Depends(get_async_session)
+):
+    email = form_data.username   # username = email kimi istifadə edirik
+    password = form_data.password
+
+    query = select(User).where(User.email == email)
     result = await session.execute(query)
     user = result.scalar_one_or_none()
 
-    if not user or not verify_password(data.password, user.password):
+    if not user or not verify_password(password, user.password):
         raise HTTPException(status_code=400, detail="Email və ya şifrə səhvdir")
 
-    access_token = create_access_token({"user_id": user.id})
-    return {"access_token": access_token, "token_type": "bearer"}
+    access_token = create_access_token({
+        "user_id": str(user.id)
+    })
+
+    return {
+        "access_token": access_token,
+        "token_type": "bearer"
+    }
 
 # ---------------------------- LOGOUT ----------------------------
 @router.post("/logout")
