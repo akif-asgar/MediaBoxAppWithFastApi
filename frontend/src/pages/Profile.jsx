@@ -24,7 +24,6 @@ const Profile = () => {
 
         setPosts(res.data);
 
-        // initialize likes state
         const initialLikes = {};
 
         res.data.forEach(post => {
@@ -45,17 +44,13 @@ const Profile = () => {
   const deletePost = async (postId) => {
 
     try {
-
       await api.delete(`/posts/${postId}`);
-
       setPosts(posts.filter(p => p.id !== postId));
-
     } catch (err) {
-
       console.error(err);
       alert("Post silinmədi");
-
     }
+
   };
 
   // LIKE POST
@@ -87,7 +82,6 @@ const Profile = () => {
 
     } catch (err) {
 
-      // rollback if error
       setLikes(prev => ({
         ...prev,
         [postId]: current
@@ -131,6 +125,7 @@ const Profile = () => {
           </>
         )}
 
+        {/* BUTTONS */}
         <div className="profile-buttons">
 
           <button onClick={() => navigate("/edit-profile")}>
@@ -139,6 +134,11 @@ const Profile = () => {
 
           <button onClick={() => navigate("/add-post")}>
             ➕ Yeni Post əlavə et
+          </button>
+
+          {/* HOME BUTTON */}
+          <button onClick={() => navigate("/")}>
+            🏠 Home
           </button>
 
         </div>
@@ -175,7 +175,7 @@ const Profile = () => {
 
                 <div className="post-actions">
 
-                  {/* LIKE BUTTON */}
+                  {/* LIKE */}
                   <button
                     className={likes[post.id]?.liked ? "liked-btn" : ""}
                     onClick={() => likePost(post.id)}
@@ -183,24 +183,20 @@ const Profile = () => {
                     ❤️ {likes[post.id]?.likes_count ?? 0}
                   </button>
 
-
-                  {/* COMMENTS PAGE BUTTON */}
+                  {/* COMMENTS */}
                   <button
                     onClick={() => navigate(`/post/${post.id}/comments`)}
                   >
                     💬 {post.comments_count ?? 0} Comments
                   </button>
 
-
-                  {/* DELETE POST */}
+                  {/* DELETE */}
                   <button
                     className="delete-btn"
                     onClick={() => {
 
                       if (window.confirm("Postu silmək istədiyinizə əminsiniz?")) {
-
                         deletePost(post.id);
-
                       }
 
                     }}

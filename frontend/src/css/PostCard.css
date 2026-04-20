@@ -1,0 +1,90 @@
+.post-card {
+  width: 500px;
+  margin: 20px auto;
+  background: #fff;
+  border-radius: 12px;
+  padding: 15px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  transition: 0.2s;
+}
+
+.post-card:hover {
+  transform: translateY(-2px);
+}
+
+.post-user {
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.post-card img {
+  width: 100%;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  object-fit: cover;
+}
+
+.post-card p {
+  color: #444;
+  margin: 8px 0;
+}
+
+/* Buttons */
+.post-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.post-actions button {
+  border: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  background: #f1f1f1;
+  transition: 0.2s;
+}
+
+.post-actions button:hover {
+  background: #ddd;
+}
+
+.post-actions .liked {
+  background: #ffebee;
+  color: red;
+}
+
+/* Comments */
+.comment-box {
+  margin-top: 10px;
+}
+
+.comment-box input {
+  width: 70%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  outline: none;
+}
+
+.comment-box button {
+  padding: 8px 10px;
+  margin-left: 5px;
+  border: none;
+  border-radius: 8px;
+  background: #007bff;
+  color: white;
+  cursor: pointer;
+}
+
+.comment-box button:hover {
+  background: #0056b3;
+}
+
+.comment-item {
+  background: #f9f9f9;
+  padding: 6px 10px;
+  border-radius: 8px;
+  margin: 5px 0;
+}

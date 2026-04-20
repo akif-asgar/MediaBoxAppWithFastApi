@@ -1,12 +1,13 @@
 import { Routes, Route } from "react-router-dom";
+
 import Login from "./pages/Login";
 import Profile from "./pages/Profile";
 import Home from "./pages/Home";
-import ProtectedRoute from "./components/ProtectedRoute";
 import Register from "./pages/Register";
 import AddPost from "./pages/AddPost";
 import EditProfile from "./pages/EditProfile";
-import PostComments from "./pages/PostComments"; 
+import PostComments from "./pages/PostComments";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 export default function App() {
   return (
@@ -14,6 +15,7 @@ export default function App() {
       <Route path="/" element={<Home />} />
 
       <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
 
       <Route
         path="/profile"
@@ -24,13 +26,24 @@ export default function App() {
         }
       />
 
-      <Route path="/register" element={<Register />} />
+      <Route
+        path="/add-post"
+        element={
+          <ProtectedRoute>
+            <AddPost />
+          </ProtectedRoute>
+        }
+      />
 
-      <Route path="/add-post" element={<AddPost />} />
+      <Route
+        path="/edit-profile"
+        element={
+          <ProtectedRoute>
+            <EditProfile />
+          </ProtectedRoute>
+        }
+      />
 
-      <Route path="/edit-profile" element={<EditProfile />} />
-
-      {/* Yeni comment səhifəsi */}
       <Route
         path="/post/:id/comments"
         element={

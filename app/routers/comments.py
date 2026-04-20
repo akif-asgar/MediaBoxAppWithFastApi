@@ -95,7 +95,7 @@ async def delete_comment(
     if not comment:
         raise HTTPException(status_code=404, detail="Comment not found")
 
-    # comment-i silmək icazəsi: ya comment sahibi, ya post sahibi
+    
     if comment.user_id != current_user.id and comment.post.author_id != current_user.id:
         raise HTTPException(status_code=403, detail="Not allowed")
 

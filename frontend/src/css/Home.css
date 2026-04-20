@@ -1,0 +1,16 @@
+body {
+  background: #f5f6fa;
+  font-family: Arial, sans-serif;
+}
+
+h2 {
+  text-align: center;
+  margin: 20px 0;
+  color: #222;
+}
+
+.no-posts {
+  text-align: center;
+  color: gray;
+  margin-top: 50px;
+}
