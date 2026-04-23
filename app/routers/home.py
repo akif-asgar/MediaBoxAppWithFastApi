@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select
+from sqlalchemy import select, func
+from sqlalchemy.orm import joinedload
 
 from app.db import get_async_session
 from app.models.post import Post
@@ -11,29 +12,29 @@ from app.utils import get_current_user
 router = APIRouter()
 
 
-# ---------------- HOME FEED ----------------
 @router.get("/home")
 async def get_home(
     db: AsyncSession = Depends(get_async_session),
     current_user: User = Depends(get_current_user)
 ):
+
     result = await db.execute(
-        select(Post).order_by(Post.created_at.desc())
+        select(Post)
+        .options(joinedload(Post.author))   # 🔥 IMPORTANT FIX
+        .order_by(Post.created_at.desc())
     )
+
     posts = result.scalars().all()
 
     response = []
 
     for post in posts:
 
-        # like count
         like_result = await db.execute(
-            select(Like).where(Like.post_id == post.id)
+            select(func.count(Like.id)).where(Like.post_id == post.id)
         )
-        likes = like_result.scalars().all()
-        likes_count = len(likes)
+        likes_count = like_result.scalar() or 0
 
-        # user liked or not
         liked_result = await db.execute(
             select(Like).where(
                 Like.post_id == post.id,
@@ -47,9 +48,15 @@ async def get_home(
             "title": post.title,
             "content": post.content,
             "image": post.image,
-            "author_id": post.author_id,
+
+            "author": {
+                "id": post.author.id if post.author else None,
+                "username": post.author.username if post.author else "Unknown"
+            },
+
             "likes_count": likes_count,
             "liked": liked,
+
             "created_at": post.created_at,
             "updated_at": post.updated_at
         })
