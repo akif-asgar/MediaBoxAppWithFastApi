@@ -1,54 +1,133 @@
-body{
-    margin:0;
-    font-family: Arial, Helvetica, sans-serif;
-    background:#f5f5f5;
+body {
+    margin: 0;
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    background-color: #f0f2f5;
 }
 
-.auth-container{
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    height:100vh;
+.auth-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
 }
 
-.auth-form{
-    width:320px;
-    background:white;
-    padding:30px;
-    border-radius:8px;
-    box-shadow:0 4px 10px rgba(0,0,0,0.1);
-    display:flex;
-    flex-direction:column;
+.auth-form {
+    width: 380px; /* Comfortable width */
+    background: white;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
 }
 
-.auth-form h2{
-    text-align:center;
-    margin-bottom:20px;
+.auth-form h2 {
+    text-align: center;
+    margin-bottom: 25px;
+    color: #1c1e21;
+    font-size: 26px;
 }
 
-.auth-form input{
-    padding:10px;
-    margin-bottom:15px;
-    border:1px solid #ccc;
-    border-radius:5px;
-    font-size:14px;
+/* THE UPDATED LARGER INPUTS */
+.auth-input {
+    width: 100%;
+    box-sizing: border-box; /* Important: keeps padding inside the width */
+    padding: 14px 16px;    /* Increased vertical size */
+    margin-bottom: 18px;   /* Space between fields */
+    border: 1px solid #dddfe2;
+    border-radius: 8px;
+    font-size: 16px;
+    background-color: #f5f6f7;
+    transition: all 0.2s ease;
 }
 
-.auth-form input:focus{
-    outline:none;
-    border-color:#4CAF50;
+.auth-input:focus {
+    outline: none;
+    border-color: #1877f2;
+    background-color: white;
+    box-shadow: 0 0 0 2px rgba(24, 119, 242, 0.2);
 }
 
-.auth-form button{
-    padding:10px;
-    border:none;
-    background:#4CAF50;
-    color:white;
-    font-size:15px;
-    border-radius:5px;
-    cursor:pointer;
+/* Checkbox Alignment */
+.show-password {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 25px;
+    font-size: 14px;
+    color: #4b4f56;
+    cursor: pointer;
 }
 
-.auth-form button:hover{
-    background:#43a047;
+.show-password input {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+    margin: 0;
+}
+
+.show-password label {
+    cursor: pointer;
+}
+
+/* Green Login Button */
+.login-btn {
+    padding: 14px;
+    border: none;
+    background-color: #42b72a;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.login-btn:hover {
+    background-color: #36a420;
+}
+
+.login-btn:disabled {
+    background-color: #94d68a;
+    cursor: not-allowed;
+}
+
+/* Footer & Links */
+.auth-footer {
+    margin-top: 25px;
+    text-align: center;
+}
+
+.divider {
+    height: 1px;
+    background-color: #dadde1;
+    margin: 20px 0;
+}
+
+.auth-footer p {
+    font-size: 15px;
+    color: #1c1e21;
+    margin-bottom: 5px;
+}
+
+.auth-link {
+    color: #1877f2;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.auth-link:hover {
+    text-decoration: underline;
+}
+
+.back-home {
+    display: inline-block;
+    color: #606770;
+    text-decoration: none;
+    font-size: 14px;
+    transition: color 0.2s;
+}
+
+.back-home:hover {
+    color: #1c1e21;
 }

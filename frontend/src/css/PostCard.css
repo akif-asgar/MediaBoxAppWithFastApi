@@ -5,11 +5,6 @@
   border-radius: 12px;
   padding: 15px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-  transition: 0.2s;
-}
-
-.post-card:hover {
-  transform: translateY(-2px);
 }
 
 .post-user {
@@ -22,74 +17,89 @@
   width: 100%;
   border-radius: 10px;
   margin-bottom: 10px;
-  object-fit: cover;
 }
 
-.post-card p {
-  color: #444;
-  margin: 8px 0;
+/* More/Less Button */
+.more-btn {
+  background: none;
+  border: none;
+  color: #1877f2;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 13px !important;
 }
 
-/* Buttons */
+/* Actions */
 .post-actions {
   display: flex;
   gap: 10px;
   margin-top: 10px;
+  border-top: 1px solid #f0f0f0;
+  padding-top: 10px;
 }
 
-.post-actions button {
+.action-btn {
   border: none;
-  padding: 8px 12px;
-  border-radius: 8px;
+  padding: 8px 15px !important;
+  border-radius: 20px;
   cursor: pointer;
   background: #f1f1f1;
-  transition: 0.2s;
+  font-size: 14px !important;
+  display: flex;
+  align-items: center;
+  gap: 5px;
 }
 
-.post-actions button:hover {
-  background: #ddd;
-}
-
-.post-actions .liked {
+.action-btn.liked {
   background: #ffebee;
-  color: red;
+  color: #e91e63;
 }
 
-/* Comments */
+/* 🔥 Fixed Comment Area Styling */
 .comment-box {
+  margin-top: 15px;
+  background: #fcfcfc;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.comment-input-area {
+  display: flex; /* Keeps input and button on one line */
+  gap: 8px;
   margin-top: 10px;
 }
 
-.comment-box input {
-  width: 70%;
-  padding: 8px;
+.comment-input-area input {
+  flex: 1; /* Takes up all available space */
+  padding: 10px;
   border: 1px solid #ddd;
-  border-radius: 8px;
+  border-radius: 20px;
   outline: none;
+  font-size: 14px;
 }
 
-.comment-box button {
-  padding: 8px 10px;
-  margin-left: 5px;
+.comment-input-area button {
+  padding: 0 20px !important;
   border: none;
-  border-radius: 8px;
+  border-radius: 20px;
   background: #007bff;
   color: white;
+  font-weight: bold;
   cursor: pointer;
+  font-size: 14px !important;
 }
 
-.comment-box button:hover {
-  background: #0056b3;
+.comment-input-area button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
 }
 
 .comment-item {
-  background: #f9f9f9;
-  padding: 6px 10px;
-  border-radius: 8px;
-  margin: 5px 0;
-}
-
-.post-card button {
-  font-size: 12px;
-  padding: 0;
+  font-size: 13px;
+  background: #f1f1f1;
+  padding: 8px 12px;
+  border-radius: 15px;
+  margin-bottom: 5px;
+  width: fit-content;
+  max-width: 90%;
 }

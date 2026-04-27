@@ -22,8 +22,7 @@ class PostResponse(PostBase):
     liked: bool
 
     class Config:
-        orm_mode = True
-        from_attributes = True
+        model_config = {"from_attributes": True}
 
 class PostOut(BaseModel):
 

@@ -18,7 +18,7 @@ class UserOut(BaseModel):
     profile_photo: str | None
 
     class Config:
-        from_attributes = True
+        model_config = {"from_attributes": True}
         
         
 class UserUpdate(BaseModel):

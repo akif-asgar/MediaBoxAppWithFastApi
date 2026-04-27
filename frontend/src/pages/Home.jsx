@@ -7,6 +7,9 @@ import { useNavigate } from "react-router-dom";
 export default function Home() {
   const [posts, setPosts] = useState([]);
   const navigate = useNavigate();
+  
+  // Check if user is logged in
+  const isAuthenticated = !!localStorage.getItem("token");
 
   useEffect(() => {
     api.get("/home")
@@ -14,34 +17,54 @@ export default function Home() {
       .catch(err => console.error("Home error:", err));
   }, []);
 
-  if (!posts.length) return <h3>No posts yet</h3>;
-
   return (
-    <div>
-
-      {/* PROFILE BUTTON */}
+    <div className="home-container">
+      {/* CONDITIONAL HEADER BUTTON */}
       <div style={{ display: "flex", justifyContent: "flex-end", padding: "10px" }}>
-        <button
-          onClick={() => navigate("/profile")}
-          style={{
-            padding: "8px 12px",
-            border: "none",
-            borderRadius: "8px",
-            cursor: "pointer",
-            background: "#007bff",
-            color: "white"
-          }}
-        >
-          👤 Profile
-        </button>
+        {isAuthenticated ? (
+          <button
+            onClick={() => navigate("/profile")}
+            style={{
+              padding: "8px 16px",
+              border: "none",
+              borderRadius: "8px",
+              cursor: "pointer",
+              background: "#007bff",
+              color: "white",
+              fontWeight: "bold"
+            }}
+          >
+            👤 Profilim
+          </button>
+        ) : (
+          <button
+            onClick={() => navigate("/login")}
+            style={{
+              padding: "8px 16px",
+              border: "none",
+              borderRadius: "8px",
+              cursor: "pointer",
+              background: "#28a745",
+              color: "white",
+              fontWeight: "bold"
+            }}
+          >
+            🔑 Giriş et
+          </button>
+        )}
       </div>
 
       <h2>Home Feed</h2>
 
-      {posts.map(post => (
-        <PostCard key={post.id} post={post} />
-      ))}
-
+      {!posts.length ? (
+        <h3>No posts yet</h3>
+      ) : (
+        <div className="posts-list">
+          {posts.map(post => (
+            <PostCard key={post.id} post={post} />
+          ))}
+        </div>
+      )}
     </div>
   );
 }
