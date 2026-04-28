@@ -10,30 +10,24 @@ const Profile = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // USER PROFILE
-    api.get("/auth/profile")
+    // 1. FIXED URL: Removed "/auth" to match your main.py configuration
+    api.get("/auth/profile") 
       .then(res => setUser(res.data))
       .catch(err => {
-        console.error(err);
-        // If unauthorized, send to login
+        console.error("Profile Error:", err);
         if (err.response?.status === 401) navigate("/login");
       });
 
-    // USER POSTS
+    // 2. USER POSTS
     api.get("/posts/my-posts")
       .then(res => setPosts(res.data))
-      .catch(err => console.error(err));
+      .catch(err => console.error("Posts Error:", err));
   }, [navigate]);
 
-  // LOGOUT LOGIC
   const handleLogout = () => {
-    // 1. Remove token from storage
     localStorage.removeItem("token");
-    // 2. Optional: Remove user data from state
     setUser(null);
-    // 3. Redirect to home or login
     navigate("/");
-    // 4. Force refresh to update the "Login/Profile" buttons on Home
     window.location.reload();
   };
 
@@ -51,7 +45,7 @@ const Profile = () => {
     <div className="profile-container">
       <div className="profile-card">
         <h2>Profilim</h2>
-        {user && (
+        {user ? (
           <>
             <div className="profile-avatar">
               <img
@@ -64,14 +58,16 @@ const Profile = () => {
             <p><strong>İstifadəçi adı:</strong> {user.username}</p>
             <p><strong>Email:</strong> {user.email}</p>
           </>
+        ) : (
+          <p>Yüklənir...</p>
         )}
 
         <div className="profile-buttons">
+          {/* 3. ENSURE NAVIGATION PATHS MATCH App.jsx */}
           <button onClick={() => navigate("/edit-profile")}>Profil Redaktəsi</button>
           <button onClick={() => navigate("/add-post")}>➕ Yeni Post</button>
           <button onClick={() => navigate("/")}>🏠 Home</button>
           
-          {/* LOGOUT BUTTON */}
           <button 
             onClick={handleLogout} 
             style={{ backgroundColor: "#dc3545", color: "white" }}

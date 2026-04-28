@@ -1,4 +1,6 @@
 import os
+import random
+import string
 from datetime import datetime, timedelta
 from typing import Optional
 
@@ -14,11 +16,12 @@ from dotenv import load_dotenv
 from app.db import get_async_session
 from app.models.user import User
 
+from fastapi_mail import FastMail, MessageSchema, MessageType
+from .mail_config import conf
 
 load_dotenv()
 
 # ----------------- CONFIG -----------------
-
 SECRET_KEY = os.getenv("SECRET_KEY")
 
 if not SECRET_KEY:
@@ -48,10 +51,8 @@ def create_access_token(data: dict, expires_delta: Optional[int] = None):
     return jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
 
 # ----------------- OAUTH2 SCHEMES -----------------
-
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login")
 
-# Custom scheme for Optional Login (allows request to continue if token is missing)
 class OptionalOAuth2PasswordBearer(OAuth2PasswordBearer):
     async def __call__(self, request: Request) -> Optional[str]:
         header: str = request.headers.get("Authorization")
@@ -102,3 +103,33 @@ async def get_current_user_optional(
         return result.scalar_one_or_none()
     except JWTError:
         return None
+
+# ----------------- VERIFICATION HELPERS -----------------
+
+def generate_verification_code() -> str:
+    """Generates a random 6-digit numeric code."""
+    return "".join(random.choices(string.digits, k=6))
+
+async def send_verification_email(email: str, code: str):
+    """Sends an HTML email with the verification code."""
+    html = f"""
+    <html>
+        <body style="font-family: Arial, sans-serif;">
+            <h2>MediaBox Hesab Təsdiqləmə</h2>
+            <p>Sizin təsdiq kodunuz: <strong style="font-size: 1.2em; color: #2c3e50;">{code}</strong></p>
+            <p>Bu kod qeydiyyatı tamamlamaq üçün lazımdır.</p>
+            <hr>
+            <p style="font-size: 0.8em; color: #7f8c8d;">Əgər bu sorğunu siz etməmisinizsə, bu emaili silə bilərsiniz.</p>
+        </body>
+    </html>
+    """
+
+    message = MessageSchema(
+        subject="MediaBox - Hesab Təsdiqləmə",
+        recipients=[email],
+        body=html,
+        subtype=MessageType.html
+    )
+
+    fm = FastMail(conf)
+    await fm.send_message(message)

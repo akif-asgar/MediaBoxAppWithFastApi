@@ -7,6 +7,7 @@ from app.db import Base
 from sqlalchemy.orm import relationship
 import uuid
 
+
 class User(Base):
     __tablename__ = "users"
 
@@ -29,3 +30,8 @@ class User(Base):
     posts = relationship("Post", back_populates="author", cascade="all, delete-orphan")
     media_files = relationship("Media", back_populates="owner", cascade="all, delete-orphan")
     comments = relationship("Comment", back_populates="user", cascade="all, delete-orphan")
+    
+    #verification fields
+    is_verified: Mapped[bool] = mapped_column(default=False)
+    verification_code: Mapped[str | None] = mapped_column(String(6), nullable=True)
+    code_expires_at: Mapped[DateTime | None] = mapped_column(DateTime(timezone=True), nullable=True)

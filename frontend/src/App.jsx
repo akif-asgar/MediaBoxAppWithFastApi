@@ -8,6 +8,7 @@ import AddPost from "./pages/AddPost";
 import EditProfile from "./pages/EditProfile";
 import PostComments from "./pages/PostComments";
 import ProtectedRoute from "./components/ProtectedRoute";
+import Verify from "./pages/VerifyEmail.jsx";
 
 export default function App() {
   return (
@@ -16,6 +17,7 @@ export default function App() {
 
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
+      <Route path="/verify" element={<Verify />} />
 
       <Route
         path="/profile"
