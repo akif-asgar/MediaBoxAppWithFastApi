@@ -29,11 +29,10 @@ export default function Login() {
     try {
       await loginUser(form);
       navigate("/profile");
-      // Refresh to update the Global state/Navbar buttons
       window.location.reload(); 
     } catch (err) {
       console.error(err);
-      alert("Login uğursuz oldu. Email və ya şifrə yanlışdır.");
+      alert("Giriş uğursuz oldu. Email və ya şifrə yanlışdır.");
     } finally {
       setLoading(false);
     }
@@ -64,16 +63,23 @@ export default function Login() {
           required
         />
 
-        <div className="show-password">
-          <input
-            type="checkbox"
-            id="toggle"
-            checked={showPassword}
-            onChange={() => setShowPassword(!showPassword)}
-          />
-          <label htmlFor="toggle">Parolu göstər</label>
+        <div className="login-options">
+          <div className="show-password">
+            <input
+              type="checkbox"
+              id="toggle"
+              checked={showPassword}
+              onChange={() => setShowPassword(!showPassword)}
+            />
+            <label htmlFor="toggle">Parolu göstər</label>
+          </div>
+          
+          {/* ADDED: Forgot Password Link */}
+          <Link to="/forgot-password" style={{ fontSize: "0.9rem", color: "#007bff", textDecoration: "none" }}>
+            Şifrəni unutmusunuz?
+          </Link>
         </div>
-
+        <br />
         <button type="submit" className="login-btn" disabled={loading}>
           {loading ? "Giriş edilir..." : "Login"}
         </button>

@@ -63,6 +63,7 @@ class OptionalOAuth2PasswordBearer(OAuth2PasswordBearer):
 oauth2_scheme_optional = OptionalOAuth2PasswordBearer(tokenUrl="/auth/login", auto_error=False)
 
 # ----------------- CURRENT USER (REQUIRED) -----------------
+# Fix: Depends daxilində session təyin edildiyi üçün startup xətası verməyəcək
 async def get_current_user(
     token: str = Depends(oauth2_scheme),
     session: AsyncSession = Depends(get_async_session)
@@ -107,27 +108,45 @@ async def get_current_user_optional(
 # ----------------- VERIFICATION HELPERS -----------------
 
 def generate_verification_code() -> str:
-    """Generates a random 6-digit numeric code."""
+    
     return "".join(random.choices(string.digits, k=6))
 
-async def send_verification_email(email: str, code: str):
-    """Sends an HTML email with the verification code."""
-    html = f"""
-    <html>
-        <body style="font-family: Arial, sans-serif;">
-            <h2>MediaBox Hesab Təsdiqləmə</h2>
-            <p>Sizin təsdiq kodunuz: <strong style="font-size: 1.2em; color: #2c3e50;">{code}</strong></p>
-            <p>Bu kod qeydiyyatı tamamlamaq üçün lazımdır.</p>
-            <hr>
-            <p style="font-size: 0.8em; color: #7f8c8d;">Əgər bu sorğunu siz etməmisinizsə, bu emaili silə bilərsiniz.</p>
-        </body>
-    </html>
-    """
+async def send_verification_email(email: str, content: str, is_reset: bool = False):
+    
+    subject = "MediaBox - Şifrə Sıfırlama" if is_reset else "MediaBox - Hesab Təsdiqləmə"
+    
+    if is_reset:
+        
+        body = f"""
+        <html>
+            <body style="font-family: Arial, sans-serif;">
+                <h2>Şifrə Sıfırlama Sorğusu</h2>
+                <p>Şifrənizi yeniləmək üçün aşağıdakı linkə klikləyin:</p>
+                <a href="{content}" style="background-color: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block;">
+                   Şifrəni Sıfırla
+                </a>
+                <p style="margin-top: 20px; font-size: 0.8em;">Əgər bu düymə işləmirsə, bu linki kopyalayıb brauzerə yapışdırın: {content}</p>
+            </body>
+        </html>
+        """
+    else:
+        
+        body = f"""
+        <html>
+            <body style="font-family: Arial, sans-serif;">
+                <h2>MediaBox Hesab Təsdiqləmə</h2>
+                <p>Sizin təsdiq kodunuz: <strong style="font-size: 1.2em; color: #2c3e50;">{content}</strong></p>
+                <p>Bu kod qeydiyyatı tamamlamaq üçün lazımdır.</p>
+                <hr>
+                <p style="font-size: 0.8em; color: #7f8c8d;">Əgər bu sorğunu siz etməmisinizsə, bu emaili silə bilərsiniz.</p>
+            </body>
+        </html>
+        """
 
     message = MessageSchema(
-        subject="MediaBox - Hesab Təsdiqləmə",
+        subject=subject,
         recipients=[email],
-        body=html,
+        body=body,
         subtype=MessageType.html
     )
 

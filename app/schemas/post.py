@@ -1,17 +1,14 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 from typing import Optional
 from datetime import datetime
-
 
 class PostBase(BaseModel):
     title: str
     content: str
     image: Optional[str] = None
 
-
 class PostCreate(PostBase):
     author_id: str
-
 
 class PostResponse(PostBase):
     id: int
@@ -21,19 +18,17 @@ class PostResponse(PostBase):
     likes_count: int
     liked: bool
 
-    class Config:
-        model_config = {"from_attributes": True}
+    # Fix: Use Pydantic V2 syntax for ORM/Attribute mapping
+    model_config = ConfigDict(from_attributes=True)
 
 class PostOut(BaseModel):
-
     id: int
     title: str
     content: str
-    image: str | None
+    image: Optional[str] = None
     created_at: datetime
-
     likes_count: int
     liked: bool
 
-    class Config:
-        from_attributes = True
+    # Fix: Use Pydantic V2 syntax for ORM/Attribute mapping
+    model_config = ConfigDict(from_attributes=True)
