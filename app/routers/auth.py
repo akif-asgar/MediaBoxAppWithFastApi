@@ -38,7 +38,7 @@ async def register_user(data: UserCreate, session: AsyncSession = Depends(get_as
     await session.commit()
     await session.refresh(new_user)
 
-    # Email göndərilməsi (utils-dəki yeni send_verification_email-ə uyğun)
+    
     await send_verification_email(new_user.email, v_code, is_reset=False)
     return new_user
 
@@ -60,7 +60,7 @@ async def verify_email(email: str, code: str, session: AsyncSession = Depends(ge
 
 @router.post("/login")
 async def login_user(form_data: OAuth2PasswordRequestForm = Depends(), session: AsyncSession = Depends(get_async_session)):
-    # OAuth2PasswordRequestForm "username" sahəsini istifadə edir, biz orada email gözləyirik
+    
     query = select(User).where(User.email == form_data.username)
     result = await session.execute(query)
     user = result.scalar_one_or_none()
@@ -78,7 +78,7 @@ async def login_user(form_data: OAuth2PasswordRequestForm = Depends(), session: 
 
 @router.get("/profile", response_model=UserOut)
 async def get_profile(current_user: User = Depends(get_current_user)):
-    # Artıq get_current_user-i burada asılılıq kimi çağırmaq kifayətdir
+    
     return current_user
 
 @router.put("/profile")
@@ -102,7 +102,7 @@ async def upload_photo(
     session: AsyncSession = Depends(get_async_session)
 ):
     os.makedirs("uploads", exist_ok=True)
-    # Fayl adını unikal etmək üçün user_id əlavə edirik
+    
     file_extension = file.filename.split(".")[-1]
     file_path = f"uploads/{current_user.id}_profile.{file_extension}"
     
@@ -124,11 +124,11 @@ async def forgot_password(email: str, session: AsyncSession = Depends(get_async_
     if not user:
         raise HTTPException(status_code=404, detail="Bu email ilə qeydiyyatdan keçmiş istifadəçi tapılmadı")
 
-    # 15 dəqiqəlik qısamüddətli token yaradırıq
+    
     token = create_access_token({"user_id": str(user.id)}, expires_delta=15)
     link = f"http://localhost:5173/reset-password?token={token}"
     
-    # utils-dəki is_reset=True məntiqi ilə link göndərilir
+    
     await send_verification_email(user.email, link, is_reset=True)
     return {"message": "Şifrə sıfırlama linki emailinizə göndərildi"}
 

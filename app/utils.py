@@ -63,7 +63,7 @@ class OptionalOAuth2PasswordBearer(OAuth2PasswordBearer):
 oauth2_scheme_optional = OptionalOAuth2PasswordBearer(tokenUrl="/auth/login", auto_error=False)
 
 # ----------------- CURRENT USER (REQUIRED) -----------------
-# Fix: Depends daxilində session təyin edildiyi üçün startup xətası verməyəcək
+
 async def get_current_user(
     token: str = Depends(oauth2_scheme),
     session: AsyncSession = Depends(get_async_session)

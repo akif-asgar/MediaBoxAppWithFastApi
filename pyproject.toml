@@ -16,6 +16,7 @@ name = "mediabox"
 version = "0.1.0"
 requires-python = ">=3.10"
 dependencies = [
+    "fastapi-mail>=1.6.3",
     "jwt>=1.4.0",
     "python-jose[cryptography]>=3.5.0",
 ]
